@@ -1,4 +1,5 @@
 const Router = require('./router.js');
+const Inbox = require('./inbox.js');
 
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.querySelector('.content');

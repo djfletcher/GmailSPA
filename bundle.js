@@ -71,6 +71,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 const Router = __webpack_require__(1);
+const Inbox = __webpack_require__(2);
 
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.querySelector('.content');
@@ -120,6 +121,22 @@ class Router {
 }
 
 module.exports = Router;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+const Inbox = function() {
+  render: () => {
+    const ul = document.createElement('ul');
+    ul.className = 'messages';
+    ul.innerHTML = 'a-baballoo theres a message for you';
+    return ul;
+  };
+};
+
+module.exports = Inbox;
 
 
 /***/ })
