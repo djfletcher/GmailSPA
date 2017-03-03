@@ -73,9 +73,18 @@
 const Router = __webpack_require__(1);
 const Inbox = __webpack_require__(2);
 
+const Routes = function(inbox, compose, sent) {
+  this.inbox = inbox;
+  this.compose = undefined;
+  this.sent = undefined;
+};
+
+const routes = new Routes();
+routes.inbox = new Inbox();
+
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.querySelector('.content');
-  const router = new Router(content);
+  const router = new Router(content, routes);
   router.start();
 
   const sidebarLis = document.querySelectorAll(".sidebar-nav li");
@@ -95,8 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
 /***/ (function(module, exports) {
 
 class Router {
-  constructor(node) {
+  constructor(node, routes) {
     this.node = node;
+    this.routes = routes;
   }
 
   start() {
@@ -107,15 +117,16 @@ class Router {
   }
 
   activeRoute() {
-    const hash = window.location.hash;
-    return hash.replace('#', '');
+    const hash = window.location.hash.replace('#', '');
+    return this.routes[hash];
   }
 
   render() {
     this.node.innerHTML = "";
-    const p = document.createElement('p');
-    p.innerText = this.activeRoute();
-    this.node.appendChild(p);
+    const component = this.activeRoute();
+    if (component) {
+      this.node.appendChild(component.render());
+    }
   }
 
 }
@@ -128,7 +139,7 @@ module.exports = Router;
 /***/ (function(module, exports) {
 
 const Inbox = function() {
-  render: () => {
+  this.render = function() {
     const ul = document.createElement('ul');
     ul.className = 'messages';
     ul.innerHTML = 'a-baballoo theres a message for you';
